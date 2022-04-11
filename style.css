@@ -16,6 +16,10 @@ body .list li {
 }
 
 body .list .sublist {
-  margin-top: 10px;
+  margin-top: 5px;
+}
+
+body .list .sublist li {
+  margin-bottom: 1px;
 }
 /*# sourceMappingURL=style.css.map */

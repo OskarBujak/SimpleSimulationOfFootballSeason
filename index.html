@@ -25,22 +25,29 @@
                 <br>
                 The total number of games would be <b><i>G</i></b> = (<b>n</b>*(<b>n</b>-1))/2 + <b>N</b> - 1 where <b>N</b> is the number of playoff teams.
             </li>
-            <li>For winning a game team will get <i>3</i> points, the tie would give 1 point, and there are no points for losing a game!</li>
+            <li>For winning a game team will get <b>3</b> points, the tie would give <b>1</b> point, and there are <b>no points</b> for losing a game!</li>
             <li>
                 Each team must have:
-                <ul class="list">
-                    <li class="sublist">Name (doesn't need to be unique, but should be).</li>
+                <ul class="sublist">
+                    <li>Name (doesn't need to be unique, but should be).</li>
                     <li>Unique ID.</li>
                     <li>Skill Points - randomly generated.</li>
                     <li>Win Counter</li>
                     <li>Lose Counter</li>
-                    <li>Amount of points gathered in this season.</li>
+                    <li>League Points - Amount of points gathered in this season.</li>
                 </ul>
             </li>
-            <li>Games - each team will have a chance of scoring each 10 minutes of the game (9 attempts to simplify).
+            <li>Games - each team will have a chance of scoring every 10 minutes of the game (9 attempts to simplify).
                 Chance would be equal to <b>X = (<i>team skill points</i>/5)/100*100%</b>, for an example: 
                 <br>
-                Team with 90 skill points will have 18% chance to score on each attempt.
+                A team with 90 skill points will have an 18% chance to score on each attempt.
+            </li>
+            <li>Results of game:  
+                <ul class="sublist">
+                    <li>The Losers team will lose 1 skill point and will get no points as stated above.</li>
+                    <li>The Winner's team will gain 1 skill point and will get 3 League Points.</li>
+                    <li>In case of a tie, no teams will lose their skill points and they will gain 1 League Point.</li>
+                </ul>
             </li>
         </ul>
     </div>
