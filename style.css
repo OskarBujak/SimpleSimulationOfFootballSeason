@@ -1,0 +1,21 @@
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+body #about {
+  margin: 0 30vw 0 30vw;
+  width: 40vw;
+}
+
+body #about header {
+  text-align: center;
+}
+
+body .list li {
+  margin-bottom: 10px;
+}
+
+body .list .sublist {
+  margin-top: 10px;
+}
+/*# sourceMappingURL=style.css.map */
