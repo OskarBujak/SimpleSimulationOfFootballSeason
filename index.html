@@ -20,7 +20,8 @@
         <h3>Project</h3>
         <ul class="list">
             <li>Simulate football season of <b>n</b> teams.</li>
-            <li>Teams will play in a round-robin tournament system. Where 4 teams with most points will play in the play-off in a single-elimination (knockout) system.
+            <li>
+                Teams will play in a round-robin tournament system. Where 4 teams with most points will play in the play-off in a single-elimination (knockout) system.
                 <br>
                 The total number of games would be <b><i>G</i></b> = (<b>n</b>*(<b>n</b>-1))/2 + <b>N</b> - 1 where <b>N</b> is the number of playoff teams.
             </li>
@@ -30,8 +31,16 @@
                 <ul class="list">
                     <li class="sublist">Name (doesn't need to be unique, but should be).</li>
                     <li>Unique ID.</li>
+                    <li>Skill Points - randomly generated.</li>
+                    <li>Win Counter</li>
+                    <li>Lose Counter</li>
                     <li>Amount of points gathered in this season.</li>
                 </ul>
+            </li>
+            <li>Games - each team will have a chance of scoring each 10 minutes of the game (9 attempts to simplify).
+                Chance would be equal to <b>X = (<i>team skill points</i>/5)/100*100%</b>, for an example: 
+                <br>
+                Team with 90 skill points will have 18% chance to score on each attempt.
             </li>
         </ul>
     </div>
