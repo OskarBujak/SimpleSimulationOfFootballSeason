@@ -32,4 +32,14 @@ body{
             cursor: pointer;
         }
     }
+    table{
+        margin-top: 10px;
+        border-collapse: collapse;
+        border: 1px solid black;
+    }
+    tr,td,th{
+        border: 1px solid black;
+        padding: 5px;
+        text-align: center;
+    }
 }
