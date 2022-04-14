@@ -1,5 +1,10 @@
 let TeamNames = ["tangible","yawn","smash","veil","chance","attack","bucket","reply","race","grass","son","paddle","volcano","train","absorbed","brief","wind","excite","top","measure","teeth","low","lighten","foot"];
-let InputRef = document.getElementById("NumberOfTeams"); InputRef.max = TeamNames.length;
+let InputRef = document.getElementById("NumberOfTeams"); 
+    
+let MinInput = 2;
+let MaxInput = TeamNames.length;
+InputRef.max = MaxInput;
+
 let bodyRef = document.body;
 let GameLog = document.getElementById("GameLog");
 
@@ -10,7 +15,7 @@ CalculateGames();
 function StartSimulation(){
     ClearShit();
     let TeamsInLeague = [];
-    n = InputRef.value;
+    n = ChechInput();
     while(n--){
         TeamsInLeague.push(new TeamCreator(TeamNames[n]));
     }
@@ -27,6 +32,16 @@ function StartSimulation(){
             i+=2;
         }
     }
+}
+function ChechInput(){
+    let input = InputRef.value;
+    if(input>MaxInput)
+        input = MaxInput;
+    if(input<MinInput)
+        input = MinInput;
+    
+    InputRef.value = input;
+    return InputRef.value;
 }
 
 let IDcounter = 0;
