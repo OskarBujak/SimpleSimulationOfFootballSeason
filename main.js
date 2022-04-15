@@ -1,9 +1,10 @@
 let TeamNames = ["tangible","yawn","smash","veil","chance","attack","bucket","reply","race","grass","son","paddle","volcano","train","absorbed","brief","wind","excite","top","measure","teeth","low","lighten","foot"];
 let InputRef = document.getElementById("NumberOfTeams"); 
     
-let MinInput = 2;
+let MinInput = 3;
 let MaxInput = TeamNames.length;
 InputRef.max = MaxInput;
+InputRef.min = MinInput;
 
 let bodyRef = document.body;
 let GameLog = document.getElementById("GameLog");
@@ -202,18 +203,47 @@ function DrawTeamTable(TeamTable){
     }
     GameLog.appendChild(Table);
 }
-/*
+
 function SortTeamTable(Table){
-    let lenght = Table.length;
-    let SortedTable = [];
-
+    let lenght = Table.length-1;
+    
+    //BubbleSort
     for(let i=0; i<lenght;i++){
-        
+        for (let j = 0; j<lenght; j++){
+            if(Table[j] == "wild" || Table[j+1] == "wild")
+                continue;
+            if (Table[j].TeamLeaguePoints > Table[j+1].TeamLeaguePoints){
+                let tmp = Table[j];
+                Table[j] = Table[j + 1];
+                Table[j + 1] = tmp;
+            }
+            else if(Table[j].TeamLeaguePoints == Table[j+1].TeamLeaguePoints){
+                if(Table[j].TeamWinCounter > Table[j+1].TeamWinCounter){
+                    let tmp = Table[j];
+                    Table[j] = Table[j + 1];
+                    Table[j + 1] = tmp;
+                }
+                else if(Table[j].TeamWinCounter == Table[j+1].TeamWinCounter){
+                    if(Table[j].ScoredGoals > Table[j+1].ScoredGoals){
+                        let tmp = Table[j];
+                        Table[j] = Table[j + 1];
+                        Table[j + 1] = tmp;
+                    }
+                    else if(Table[j].ScoredGoals == Table[j+1].ScoredGoals){
+                        if(Table[j].TeamID < Table[j+1].TeamID){
+                            let tmp = Table[j];
+                            Table[j] = Table[j + 1];
+                            Table[j + 1] = tmp;
+                        }
+                    }
+                }
+            }
+        }
     } 
-
-    return SortedTable;
+    Table.reverse();
+    return Table;
 }
-*/
+
 function rand(min, max){
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
