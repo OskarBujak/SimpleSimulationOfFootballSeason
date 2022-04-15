@@ -14,16 +14,16 @@
             <hr>
         </header>
         <h2>About this project</h2>
-        <p>The goal of this project is to simulate in a really simple way the entire football season including the playoffs.</p>
+        <p>The goal of this project is to simulate in a really simple way the entire football season.</p>
         <h3>What are my goals?</h3>
         <P>I want to focus on optimizing the way my code works,  object-oriented programming practice, and just having as much fun as possible!</P>
         <h3>Project</h3>
         <ul class="list">
-            <li>Simulate football season of <b>n</b> teams.</li>
+            <li>Simulate football season of <b>n</b> teams where <b>n</b> &gt;= 4.</li>
             <li>
-                Teams will play in a round-robin tournament system. Where 4 teams with most points will play in the play-off in a single-elimination (knockout) system.
+                Teams will play in a round-robin tournament system.
                 <br>
-                The total number of games would be <b><i>G</i></b> = (<b>n</b>*(<b>n</b>-1))/2 + <b>N</b> - 1 where <b>N</b> is the number of playoff teams.
+                The total number of games would be <b><i>G</i></b> = (<b>n</b>*(<b>n</b>-1))/2.
             </li>
             <li>
                 Each team must have:
@@ -33,23 +33,29 @@
                     <li>Skill Points - randomly generated.</li>
                     <li>Win Counter</li>
                     <li>Lose Counter</li>
+                    <li>Draw Counter</li>
                     <li>League Points - Amount of points gathered in this season.</li>
+                    <li>Scored Goals</li>
                 </ul>
             </li>
-            <li>Games - each team will have a chance of scoring every 10 minutes of the game (9 attempts to simplify).
-                Chance would be equal to <b>X = (<i>team skill points</i>/5)/100*100%</b>, for an example: 
-                <br>
-                A team with 90 skill points will have an 18% chance to score on each attempt.
-                <br>
-                <li>
-                    For winning a game team will get <b>3</b> points, the tie would give <b>1</b> point, and there are <b>no points</b> for losing a game!
-                </li>
+            <li>Games - each team will have a chance of scoring every <b>GameTurns</b> attempts where <b><br>GameTurns = rand(1,<i>(Team1Skill(with more points) - Team1Skill(with less points))%10</i>)</b><br>or in case if teams skill points are equal <b>GameTurns = rand(1,10)</b>. Game would look like:<br>
+                <pre>for GameTurns 
+    temp1 = Team1Skill
+    temp2 = Team2Skill
+    while temp1&gt;=0 and temp2&gt;=0
+        temp1 -= random from 1 to 5;
+        temp2 -= random from 1 to 5;
+    if temp1&lt;=0 and temp2&lt;=0
+        no goals
+    if temp1&lt;temp2
+        team1 scores
+    else 
+        team2 scores
+                </pre>
             </li>
             <li>Results of game:  
                 <ul class="sublist">
-                    <li>The Losers team will lose 1 skill point and will get no points as stated above.</li>
-                    <li>The Winner's team will gain 1 skill point and will get 3 League Points.</li>
-                    <li>In case of a tie, no teams will lose their skill points and they will gain 1 League Point.</li>
+                    <li>For winning a game team will get <b>3</b> points, the tie would give <b>1</b> point, and there are <b>no points</b> for losing a game!</li>
                 </ul>
             </li>
         </ul>

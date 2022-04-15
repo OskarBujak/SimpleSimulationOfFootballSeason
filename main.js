@@ -1,7 +1,7 @@
 let TeamNames = ["tangible","yawn","smash","veil","chance","attack","bucket","reply","race","grass","son","paddle","volcano","train","absorbed","brief","wind","excite","top","measure","teeth","low","lighten","foot"];
 let InputRef = document.getElementById("NumberOfTeams"); 
     
-let MinInput = 3;
+let MinInput = 4;
 let MaxInput = TeamNames.length;
 InputRef.max = MaxInput;
 InputRef.min = MinInput;
@@ -9,7 +9,7 @@ InputRef.min = MinInput;
 let bodyRef = document.body;
 let GameLog = document.getElementById("GameLog");
 
-let NumberOfPlayOffTeams = 4;
+CalculateGames();
 
 function StartSimulation(){
     ClearShit();
@@ -31,7 +31,8 @@ function StartSimulation(){
             i+=2;
         }
     }
-    DrawTeamTable(SortTeamTable(TeamsInLeague));
+    TeamsInLeague = SortTeamTable(TeamsInLeague);
+    DrawTeamTable(TeamsInLeague);
 }
 function ChechInput(){
     let input = InputRef.value;
@@ -76,9 +77,9 @@ function Game(Team1,Team2){
     //<d> is just to make clearing page easier
     GameLog.innerHTML += ("<d><i>"+Team1.TeamName+" plays with "+Team2.TeamName+"</i><br></d>");
     for(let i = 0;i<GameTurns_N;i++){
-        let Team1_temp = 100 - Team1.TeamSkill;
-        let Team2_temp = 100 - Team2.TeamSkill;
-        for(;Team1_temp>=0 && Team2_temp>=0;){
+        let Team1_temp = 150 - Team1.TeamSkill;
+        let Team2_temp = 150 - Team2.TeamSkill;
+        while(Team1_temp>=0 && Team2_temp>=0){
             Team1_temp -= rand(1,5);
             Team2_temp -= rand(1,5);
         }
@@ -120,10 +121,13 @@ function Game(Team1,Team2){
         Team1.TeamLeaguePoints+=3;
         Team2.TeamLoseCounter++;
 
+        /*
+        //Pointless in more amout of games
         if(!(Team1.TeamSkill+1>99))
             Team1.TeamSkill++;
         if(!(Team2.TeamSkill-1<1))
             Team2.TeamSkill--;
+        */
 
         GameLog.innerHTML += "<b>"+Team1.TeamName+" wins "+Score1+" to "+Score2+"!</b><br>";
     }
@@ -140,14 +144,23 @@ function Game(Team1,Team2){
         Team2.TeamLeaguePoints+=3;
         Team1.TeamLoseCounter++;
 
+        /*
+        //Pointless in more amout of games
         if(!(Team2.TeamSkill+1>99))
             Team2.TeamSkill++;
         if(!(Team1.TeamSkill-1<1))
             Team1.TeamSkill--;
+        */
 
         GameLog.innerHTML += "<b>"+Team2.TeamName+" wins "+Score2+" to "+Score1+"!</b><br>";
     }
     GameLog.innerHTML += "<br>";
+    if(Score1>Score2)
+        return Team1;
+    if(Score1<Score2)
+        return Team2;
+    if(Score1===Score2)
+        return "draw";
 }
 
 function RoundCreator(Participants){
@@ -178,13 +191,9 @@ function RoundCreator(Participants){
 //Calculate number of games that needs to be played to fully complete simulation
 function CalculateGames(){
     let n = InputRef.value;
-    let G = 0; //no. Games
+    let G = (n*(n-1))/2; //no. Games
 
-    n>4?G = (n*(n-1))/2 + NumberOfPlayOffTeams-1:n<=4?G = n-1:document.getElementById("GamesCalc").innerHTML = "Error";
-
-    let gameorgames = 0;
-    n==2?gameorgames = " game":gameorgames = " games";
-    document.getElementById("GamesCalc").innerHTML = "There will be "+G+gameorgames+" to simulate";
+    document.getElementById("GamesCalc").innerHTML = "There will be "+G+" games to simulate";
 }
 
 //Name says it all ;P
