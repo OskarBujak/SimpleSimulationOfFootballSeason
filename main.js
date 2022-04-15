@@ -10,8 +10,6 @@ let GameLog = document.getElementById("GameLog");
 
 let NumberOfPlayOffTeams = 4;
 
-CalculateGames();
-
 function StartSimulation(){
     ClearShit();
     let TeamsInLeague = [];
@@ -32,6 +30,7 @@ function StartSimulation(){
             i+=2;
         }
     }
+    DrawTeamTable(SortTeamTable(TeamsInLeague));
 }
 function ChechInput(){
     let input = InputRef.value;
@@ -52,15 +51,69 @@ class TeamCreator {
         this.TeamSkill = rand(1, 99);
         this.TeamWinCounter = 0;
         this.TeamLoseCounter = 0;
-        this.TeamDraws = 0;
+        this.TeamDrawsCounter = 0;
         this.TeamLeaguePoints = 0;
+        this.ScoredGoals = 0;
     }
 }
 
 function Game(Team1,Team2){
     if(Team1 == "wild" || Team2 == "wild")
         return;
-    GameLog.innerHTML += (Team1.TeamName+" plays with "+Team2.TeamName+"<br>");
+    
+    Team1Chance = Math.ceil(Team1.TeamSkill/5);
+    Team2Chance = Math.ceil(Team2.TeamSkill/5);
+
+    Score1 = 0;
+    Score2 = 0;
+
+    //<d> is just to make clearing page easier :P
+    GameLog.innerHTML += ("<d><i>"+Team1.TeamName+" plays with "+Team2.TeamName+"</i><br></d>");
+    for(let i = 0;i<9;i++){
+        if(Team1Chance>=rand(1, 100)){
+            Team1.ScoredGoals++;
+            Score1++;
+            GameLog.innerHTML += "<d>"+Team1.TeamName+" scores! It's "+Score1+"-"+Score2+"!<br></d>";
+        }
+        if(Team1Chance>=rand(1, 100)){
+            Team2.ScoredGoals++;
+            Score2++;
+            GameLog.innerHTML += "<d>"+Team2.TeamName+" scores! It's "+Score1+"-"+Score2+"!<br></d>";
+        }
+    }
+    if(Score1>Score2){
+        Team1.TeamWinCounter++;
+        Team1.TeamLeaguePoints+=3;
+        Team2.TeamLoseCounter++;
+
+        if(!(Team1.TeamSkill+1>99))
+            Team1.TeamSkill++;
+        if(!(Team2.TeamSkill-1<1))
+            Team2.TeamSkill--;
+
+        GameLog.innerHTML += "<b>"+Team1.TeamName+" wins "+Score1+" to "+Score2+"!</b><br>";
+    }
+    else if(Score1===Score2){
+        Team1.TeamDrawsCounter++;
+        Team1.TeamLeaguePoints++;
+
+        Team2.TeamDrawsCounter++;
+        Team2.TeamLeaguePoints++;
+        GameLog.innerHTML += "<b>It's a draw! "+Score1+"-"+Score2+"</b><br>";
+    }
+    else{
+        Team2.TeamWinCounter++;
+        Team2.TeamLeaguePoints+=3;
+        Team1.TeamLoseCounter++;
+
+        if(!(Team2.TeamSkill+1>99))
+            Team2.TeamSkill++;
+        if(!(Team1.TeamSkill-1<1))
+            Team1.TeamSkill--;
+
+        GameLog.innerHTML += "<b>"+Team2.TeamName+" wins "+Score2+" to "+Score1+"!</b><br>";
+    }
+    GameLog.innerHTML += "<br>";
 }
 
 function RoundCreator(Participants){
@@ -85,8 +138,6 @@ function RoundCreator(Participants){
         row1.splice(1, 0, row2.shift());
         row2.push(row1.pop());
     }
-
-    console.log(RoundArray);
     return RoundArray;
 }
 
@@ -105,16 +156,24 @@ function CalculateGames(){
 //Name says it all ;P
 function ClearShit(){
     IDcounter = 0;
+
+    if(GameLog.hasChildNodes()){
+        let tab = GameLog.querySelectorAll("*");
+        for(const a of tab){
+            a.remove();
+        }
+    }
+    CalculateGames();
 }
 
 //Drawing Table
 function DrawTeamTable(TeamTable){
     let Table = document.createElement("table");
 
-    let Tablenght = 6;
+    let Tablenght = 7;
 
     //Creating Table header 
-    let somearray = ['No.','Name','ID','Team Skill','W/L/D','Points'];
+    let somearray = ['No.','Name','ID','Team Skill','W/L/D','Scored Goals','Points'];
     let TableRow = document.createElement("tr");
     for(let j=0;j<Tablenght;j++){
         let TableHeader = document.createElement("th");
@@ -127,8 +186,10 @@ function DrawTeamTable(TeamTable){
     let n = 1;
     //Loop for creating row for each team
     for(const team of TeamTable){
+        if(team == "wild")
+            continue;
         //Tab created to move easier through the output
-        let HelpTab = [n++,team.TeamName,team.TeamID,team.TeamSkill,(team.TeamWinCounter+"/"+team.TeamLoseCounter+"/"+team.TeamDraws),team.TeamLeaguePoints];
+        let HelpTab = [n++,team.TeamName,team.TeamID,team.TeamSkill,(team.TeamWinCounter+"/"+team.TeamLoseCounter+"/"+team.TeamDrawsCounter),team.ScoredGoals,team.TeamLeaguePoints];
         //Creating Row
         let TableRow = document.createElement("tr");
         for(let j=0;j<Tablenght;j++){
@@ -141,7 +202,18 @@ function DrawTeamTable(TeamTable){
     }
     GameLog.appendChild(Table);
 }
+/*
+function SortTeamTable(Table){
+    let lenght = Table.length;
+    let SortedTable = [];
 
+    for(let i=0; i<lenght;i++){
+        
+    } 
+
+    return SortedTable;
+}
+*/
 function rand(min, max){
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
