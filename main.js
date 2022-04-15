@@ -61,14 +61,45 @@ class TeamCreator {
 function Game(Team1,Team2){
     if(Team1 == "wild" || Team2 == "wild")
         return;
+
+    let Score1 = 0;
+    let Score2 = 0;
     
-    Team1Chance = Math.ceil(Team1.TeamSkill/5);
-    Team2Chance = Math.ceil(Team2.TeamSkill/5);
+    //NEW GAME SYSTEM
+    let GameTurns_N = 0;
+    if(Team1.TeamSkill>Team2.TeamSkill)
+        GameTurns_N = rand(1,(Team1.TeamSkill-Team2.TeamSkill)%10);
+    else if(Team1.TeamSkill<Team2.TeamSkill)
+        GameTurns_N = rand(1,(Team2.TeamSkill-Team1.TeamSkill)%10);
+    else
+        GameTurns_N = rand(1,10);
+    //<d> is just to make clearing page easier
+    GameLog.innerHTML += ("<d><i>"+Team1.TeamName+" plays with "+Team2.TeamName+"</i><br></d>");
+    for(let i = 0;i<GameTurns_N;i++){
+        let Team1_temp = 100 - Team1.TeamSkill;
+        let Team2_temp = 100 - Team2.TeamSkill;
+        for(;Team1_temp>=0 && Team2_temp>=0;){
+            Team1_temp -= rand(1,5);
+            Team2_temp -= rand(1,5);
+        }
+        if(Team1_temp<=0 && Team2_temp<=0)
+            continue;
+        else if(Team1_temp<Team2_temp){
+            Team1.ScoredGoals++;
+            Score1++;
+            GameLog.innerHTML += "<d>"+Team1.TeamName+" scores! It's "+Score1+"-"+Score2+"!<br></d>";
+        }
+        else{
+            Team2.ScoredGoals++;
+            Score2++;
+            GameLog.innerHTML += "<d>"+Team2.TeamName+" scores! It's "+Score1+"-"+Score2+"!<br></d>";
+        }
+    }
+    /*
+    //OLD GAME SYSTEM (so random lmao)
+    let Team1Chance = Math.ceil(Team1.TeamSkill/5);
+    let Team2Chance = Math.ceil(Team2.TeamSkill/5);
 
-    Score1 = 0;
-    Score2 = 0;
-
-    //<d> is just to make clearing page easier :P
     GameLog.innerHTML += ("<d><i>"+Team1.TeamName+" plays with "+Team2.TeamName+"</i><br></d>");
     for(let i = 0;i<9;i++){
         if(Team1Chance>=rand(1, 100)){
@@ -82,6 +113,8 @@ function Game(Team1,Team2){
             GameLog.innerHTML += "<d>"+Team2.TeamName+" scores! It's "+Score1+"-"+Score2+"!<br></d>";
         }
     }
+    */
+    
     if(Score1>Score2){
         Team1.TeamWinCounter++;
         Team1.TeamLeaguePoints+=3;
